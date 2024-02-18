@@ -1,23 +1,15 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
     public PlayerController player;
 
-    public EnemyController enemy;
+    private EnemyController currentEnemyController; // Store reference to the current enemy
 
     public ParticleSystem attackparticles;
 
     private bool canAttack = false;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()
@@ -26,10 +18,13 @@ public class PlayerAttack : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                player.isAttacking = true;
-                enemy.TakeDamage();
-                attackparticles.Play();
-                Invoke("StopParticleSystem", 0.8f);
+                if (currentEnemyController != null)
+                {
+                    player.isAttacking = true;
+                    currentEnemyController.TakeDamage();
+                    attackparticles.Play();
+                    Invoke("StopParticleSystem", 0.8f);
+                }
             }
         }
     }
@@ -45,6 +40,7 @@ public class PlayerAttack : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             canAttack = true;
+            currentEnemyController = collision.gameObject.GetComponent<EnemyController>();
         }
     }
 
@@ -53,6 +49,7 @@ public class PlayerAttack : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             canAttack = false;
+            currentEnemyController = null; // Reset the current enemy reference
         }
     }
 }

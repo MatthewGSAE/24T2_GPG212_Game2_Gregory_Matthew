@@ -50,22 +50,27 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void MoveToWaypoint()
+void MoveToWaypoint()
+{
+    if (waypoints.Length == 0)
     {
-        if (waypoints.Length == 0)
-        {
-            Debug.LogError("No waypoints assigned to the EnemyController.");
-            return;
-        }
-
-        Vector3 targetPosition = waypoints[currentWaypointIndex].position;
-        MoveToTarget(targetPosition);
-
-        if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
-        {
-            currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
-        }
+        Debug.LogError("No waypoints assigned to the EnemyController.");
+        return;
     }
+
+    Vector3 targetPosition = waypoints[currentWaypointIndex].position;
+
+    // Check if the enemy is close enough to the current waypoint
+    if (Vector3.Distance(transform.position, targetPosition) > 0.1f)
+    {
+        MoveToTarget(targetPosition);
+    }
+    else
+    {
+        // If close enough, move to the next waypoint
+        currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
+    }
+}
 
     void MoveToTarget(Vector3 targetPosition)
     {
@@ -89,11 +94,14 @@ public class EnemyController : MonoBehaviour
 
     public void TakeDamage()
     {
-        health--;
-
-        if (health <= 0)
+        if (gameObject.CompareTag("Enemy"))
         {
-            Destroy(gameObject);
+            health--;
+
+            if (health <= 0)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
