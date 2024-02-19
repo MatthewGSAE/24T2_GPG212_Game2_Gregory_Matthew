@@ -7,6 +7,7 @@ public class EnemyController : MonoBehaviour
     public PlayerController playerController;
 
     public float health;
+    public float maxHealth;
     public Transform[] waypoints;
     public float moveSpeed;
     public float chaseRange;
@@ -17,9 +18,17 @@ public class EnemyController : MonoBehaviour
 
     private int currentWaypointIndex;
 
+    [SerializeField] FloatingEnemyHalth healthBar;
+
+    private void Awake()
+    {
+        healthBar = GetComponentInChildren<FloatingEnemyHalth>();
+    }
+
     void Start()
     {
         currentWaypointIndex = 0;
+        healthBar.UpdateHealthBar(health, maxHealth);
     }
 
     void Update()
@@ -84,7 +93,7 @@ void MoveToWaypoint()
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
         if (distanceToPlayer <= stopRange)
         {
-            playerController.health--;
+            playerController.playerHealth--;
         }
 
         yield return new WaitForSeconds(attackCooldown);
@@ -97,6 +106,7 @@ void MoveToWaypoint()
         if (gameObject.CompareTag("Enemy"))
         {
             health--;
+            healthBar.UpdateHealthBar(health, maxHealth);
 
             if (health <= 0)
             {

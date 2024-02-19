@@ -6,18 +6,29 @@ public class PlayerController : MonoBehaviour
 {
     public bool isAttacking;
 
-    public float health;
-    // Start is called before the first frame update
+    public float playerHealth;
+    public float playerMaxHealth;
+
+    [SerializeField] PlayerHealthBar playerHealthBar;
+
+    private void Awake()
+    {
+        playerHealthBar = GetComponentInChildren<PlayerHealthBar>();
+    }   
+
     void Start()
     {
         isAttacking = false;
+        playerHealthBar.UpdatePlayerHealth(playerHealth, playerMaxHealth);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        Debug.Log(health);
-        if (health == 0)
+        Debug.Log(playerHealth);
+        playerHealthBar.UpdatePlayerHealth(playerHealth, playerMaxHealth);
+
+
+        if (playerHealth == 0)
         {
             Destroy(gameObject);
         }
