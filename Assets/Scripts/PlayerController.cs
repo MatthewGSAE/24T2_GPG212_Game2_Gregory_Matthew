@@ -24,7 +24,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(playerHealth);
         playerHealthBar.UpdatePlayerHealth(playerHealth, playerMaxHealth);
 
 
