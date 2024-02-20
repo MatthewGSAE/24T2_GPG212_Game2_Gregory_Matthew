@@ -6,6 +6,7 @@ public class Border : MonoBehaviour
 {
     public PlayerController playerController;
     public bool canHurtPlayer = true;
+    public bool inBorder = false;
 
     private void Start()
     {
@@ -18,11 +19,20 @@ public class Border : MonoBehaviour
         Debug.Log("god");
         if (collision.CompareTag("Player"))
         {
+            inBorder = true;
             Debug.Log("help");
             if (canHurtPlayer)
             {
                 Damage();
             }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            inBorder = false;
         }
     }
 
@@ -32,6 +42,10 @@ public class Border : MonoBehaviour
         canHurtPlayer = false;
         yield return new WaitForSeconds(0.5f);
         canHurtPlayer = true;
+        if (inBorder)
+        {
+            Damage();
+        }
     }
 
     private void Damage()
@@ -40,6 +54,5 @@ public class Border : MonoBehaviour
         playerController.playerHealth--;
         Debug.Log("--");
         StartCoroutine(WaitAndEnableHurtAgain());
-        Damage();
     }
 }
