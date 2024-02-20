@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     {
         isAttacking = false;
         playerHealthBar.UpdatePlayerHealth(playerHealth, playerMaxHealth);
+        playerHealth = 4;
     }
 
     void Update()
@@ -30,6 +31,15 @@ public class PlayerController : MonoBehaviour
         if (playerHealth == 0)
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("HealthPot"))
+        {
+            playerHealth++;
+            Destroy(collision.gameObject);
         }
     }
 }
