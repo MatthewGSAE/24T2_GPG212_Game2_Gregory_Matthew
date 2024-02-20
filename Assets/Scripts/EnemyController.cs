@@ -15,6 +15,8 @@ public class EnemyController : MonoBehaviour
     public Transform player;
     public float attackCooldown = 2f;  // Cooldown time between attacks
     private bool canAttack = true;      // Flag to check if the enemy can attack
+    public GameObject prefabToInstantiate;
+    Vector3 bodyPosition;
 
     private int currentWaypointIndex;
 
@@ -110,6 +112,13 @@ void MoveToWaypoint()
 
             if (health <= 0)
             {
+
+                bodyPosition = transform.position;
+                float randomAction = Random.Range(0f, 1f);
+                if (randomAction >= 0.50f)
+                {
+                    GameObject newObject = Instantiate(prefabToInstantiate, bodyPosition, Quaternion.identity);
+                }
                 Destroy(gameObject);
             }
         }

@@ -11,6 +11,13 @@ public class PlayerAttack : MonoBehaviour
 
     private bool canAttack = false;
 
+    AudioSource swordAttack;
+
+    private void Start()
+    {
+        swordAttack = GetComponent<AudioSource>();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -20,6 +27,7 @@ public class PlayerAttack : MonoBehaviour
             {
                 if (currentEnemyController != null)
                 {
+                    swordAttack.Play();
                     player.isAttacking = true;
                     currentEnemyController.TakeDamage();
                     attackparticles.Play();
