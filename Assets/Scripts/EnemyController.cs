@@ -115,7 +115,7 @@ void MoveToWaypoint()
 
                 bodyPosition = transform.position;
                 float randomAction = Random.Range(0f, 1f);
-                if (randomAction >= 0.50f)
+                if (randomAction >= 0.65f)
                 {
                     GameObject newObject = Instantiate(prefabToInstantiate, bodyPosition, Quaternion.identity);
                 }

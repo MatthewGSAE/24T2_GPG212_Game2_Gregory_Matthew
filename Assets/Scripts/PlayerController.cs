@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private GameOver gameOver;
+
     public bool isAttacking;
 
     public float playerHealth;
@@ -18,6 +20,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1f;
         isAttacking = false;
         playerHealthBar.UpdatePlayerHealth(playerHealth, playerMaxHealth);
         playerHealth = 4;
@@ -30,7 +33,7 @@ public class PlayerController : MonoBehaviour
 
         if (playerHealth == 0)
         {
-            Destroy(gameObject);
+            gameOver.PlayerDied();
         }
     }
 
